@@ -1,0 +1,57 @@
+import requests
+import json
+import random
+import time
+
+
+def get_context():
+    context_list = [
+        "不喜歡的人的心機才是心機，喜歡的人的心機，那叫撒嬌",
+        "好好的呢，沒有廢......",
+        "嗯？怎麼？",
+        "把手機放下多充一會，我們可以去幹點別的",
+        "起床了，洗漱完到樓下集合",
+        "怎麼還沒睡？",
+        "我自己宿舍是懶得收拾......但你的不一樣",
+        "一人高考，全隊光榮",
+        "下了賽場上考場，十年寒窗不苦讀",
+        "磨刀不誤砍柴工，高考之後再打工",
+        "高考一次，幸福一生",
+    ]
+    text = random.choice(context_list)
+    return text
+
+
+def chat(chanel_list,authorization_list):
+    for authorization in authorization_list:
+        header = {
+            "Authorization": authorization,
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
+        }
+        for chanel_id in chanel_list:
+            msg = {
+                "content": get_context(),
+                "nonce": "82329451214{}33232234".format(random.randrange(0, 1000)),
+                "tts": False,
+            }
+            url = "https://discord.com/api/v9/channels/{}/messages".format(chanel_id)
+            try:
+                res = requests.post(url=url, headers=header, data=json.dumps(msg))
+                print(res.content)
+            except:
+                pass
+            continue
+        time.sleep(random.randrange(1, 3))
+
+
+if __name__ == "__main__":
+    chanel_list = ["985580815129923594"]
+    authorization_list = ["NjA1NDI0NDk5MjkwMjc1ODUw.YOG6cQ.zMaMye9d53I2K4GEJQflx963jQ0"]
+    while True:
+        try:
+            chat(chanel_list,authorization_list)
+            sleeptime = random.randrange(600,300)
+            time.sleep(sleeptime)
+        except:
+            break
